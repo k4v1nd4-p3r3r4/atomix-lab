@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ATOMIXLAB — Engineering Digital Power</title>
+<link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;600;700;900&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+ <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- Animated Canvas Background -->
+<canvas id="canvas-bg"></canvas>
+
+<!-- ======= NAVBAR ======= -->
+<nav id="navbar">
+  <a href="#" class="logo">
+    <div class="logo-atom">
+      <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="3" fill="#00F0FF"/>
+        <circle cx="20" cy="20" r="3" fill="url(#cg)" opacity="0.8"/>
+        <ellipse cx="20" cy="20" rx="18" ry="7" stroke="#00F0FF" stroke-width="0.8" opacity="0.7"/>
+        <ellipse cx="20" cy="20" rx="18" ry="7" stroke="#00F0FF" stroke-width="0.8" opacity="0.7" transform="rotate(60 20 20)"/>
+        <ellipse cx="20" cy="20" rx="18" ry="7" stroke="#00F0FF" stroke-width="0.8" opacity="0.7" transform="rotate(120 20 20)"/>
+        <defs>
+          <radialGradient id="cg" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#00F0FF"/>
+            <stop offset="100%" stop-color="#7A00FF"/>
+          </radialGradient>
+        </defs>
+      </svg>
+    </div>
+    ATOMIX<span class="logo-glow">LAB</span>
+  </a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact" class="nav-cta">Start Project</a></li>
+  </ul>
+</nav>
+
+<!-- ======= HERO ======= -->
+<section id="hero">
+  <div class="glow-blob" style="width:600px;height:600px;background:rgba(0,240,255,0.04);top:50%;left:50%;transform:translate(-50%,-50%);"></div>
+  <div class="glow-blob" style="width:400px;height:400px;background:rgba(122,0,255,0.05);top:30%;right:10%;"></div>
+  <div class="hero-eyebrow">Digital Laboratory &nbsp;·&nbsp; Scalable Systems &nbsp;·&nbsp; Future-Ready</div>
+  <h1 class="hero-title">
+    Engineering<br/>
+    <span>Digital Power</span>
+  </h1>
+  <p class="hero-sub">We build high-performance software systems — from enterprise SaaS platforms to AI integrations — engineered for scale and precision.</p>
+  <div class="hero-btns">
+    <a href="#contact" class="btn-primary">Start a Project</a>
+    <a href="#services" class="btn-secondary">View Solutions →</a>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">50+</div><div class="lbl">Projects Delivered</div></div>
+    <div class="hero-stat"><div class="num">12+</div><div class="lbl">Countries Served</div></div>
+    <div class="hero-stat"><div class="num">99%</div><div class="lbl">Client Satisfaction</div></div>
+    <div class="hero-stat"><div class="num">5★</div><div class="lbl">Average Rating</div></div>
+  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div>SCROLL</div>
+</section>
+
+<!-- ======= ABOUT ======= -->
+<div class="section-divider"></div>
+<section id="about">
+  <div class="about-text reveal">
+    <div class="section-tag">// 01 · About Us</div>
+    <h2>Not just code.<br/>A digital <span style="color:var(--neon)">laboratory</span>.</h2>
+    <p>ATOMIXLAB is a software engineering studio obsessed with precision, scalability, and innovation. We don't just ship code — we architect systems that power businesses globally.</p>
+    <p>From greenfield SaaS products to complex enterprise integrations, our team brings deep technical expertise and a relentless focus on performance to every engagement.</p>
+    <div style="display:flex;gap:32px;margin-top:36px;">
+      <div><div style="font-size:28px;font-weight:900;color:var(--neon);">6+</div><div style="font-size:11px;color:var(--gray);letter-spacing:2px;text-transform:uppercase;margin-top:4px;">Years Building</div></div>
+      <div style="width:1px;background:var(--border);"></div>
+      <div><div style="font-size:28px;font-weight:900;color:var(--neon);">30+</div><div style="font-size:11px;color:var(--gray);letter-spacing:2px;text-transform:uppercase;margin-top:4px;">Technologies</div></div>
+      <div style="width:1px;background:var(--border);"></div>
+      <div><div style="font-size:28px;font-weight:900;color:var(--neon);">∞</div><div style="font-size:11px;color:var(--gray);letter-spacing:2px;text-transform:uppercase;margin-top:4px;">Scalability</div></div>
+    </div>
+  </div>
+  <div class="about-visual reveal">
+    <canvas id="atom-canvas"></canvas>
+  </div>
+</section>
+
+<!-- ======= SERVICES ======= -->
+<div class="section-divider"></div>
+<section id="services">
+  <div class="section-header reveal">
+    <div class="section-tag">// 02 · Services</div>
+    <h2>What we <span style="color:var(--neon)">engineer</span></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="svc-num">01</span>
+      <span class="svc-icon">⬡</span>
+      <div class="svc-title">Web Development</div>
+      <div class="svc-desc">Pixel-perfect, performant web applications built with modern frameworks and enterprise-grade architecture.</div>
+      <div class="svc-tags"><span class="svc-tag">React</span><span class="svc-tag">Next.js</span><span class="svc-tag">Vue</span></div>
+    </div>
+    <div class="service-card reveal">
+      <span class="svc-num">02</span>
+      <span class="svc-icon">◈</span>
+      <div class="svc-title">SaaS Platforms</div>
+      <div class="svc-desc">Full-stack SaaS products with multi-tenancy, billing systems, and dashboards built to scale from day one.</div>
+      <div class="svc-tags"><span class="svc-tag">Laravel</span><span class="svc-tag">Stripe</span><span class="svc-tag">Auth</span></div>
+    </div>
+    <div class="service-card reveal">
+      <span class="svc-num">03</span>
+      <span class="svc-icon">⟁</span>
+      <div class="svc-title">API Systems</div>
+      <div class="svc-desc">RESTful and GraphQL APIs engineered for speed, security, and seamless third-party integrations.</div>
+      <div class="svc-tags"><span class="svc-tag">Node.js</span><span class="svc-tag">GraphQL</span><span class="svc-tag">REST</span></div>
+    </div>
+    <div class="service-card reveal">
+      <span class="svc-num">04</span>
+      <span class="svc-icon">⬢</span>
+      <div class="svc-title">Cloud Solutions</div>
+      <div class="svc-desc">Infrastructure design, deployment automation, and cloud-native architecture on AWS, GCP, and Azure.</div>
+      <div class="svc-tags"><span class="svc-tag">AWS</span><span class="svc-tag">Docker</span><span class="svc-tag">K8s</span></div>
+    </div>
+    <div class="service-card reveal">
+      <span class="svc-num">05</span>
+      <span class="svc-icon">⬟</span>
+      <div class="svc-title">AI Integrations</div>
+      <div class="svc-desc">Intelligent automation, LLM integrations, and AI-powered features woven into your existing product stack.</div>
+      <div class="svc-tags"><span class="svc-tag">OpenAI</span><span class="svc-tag">LangChain</span><span class="svc-tag">ML</span></div>
+    </div>
+    <div class="service-card reveal">
+      <span class="svc-num">06</span>
+      <span class="svc-icon">◇</span>
+      <div class="svc-title">Mobile Apps</div>
+      <div class="svc-desc">Cross-platform mobile applications with native performance and seamless API connectivity.</div>
+      <div class="svc-tags"><span class="svc-tag">React Native</span><span class="svc-tag">Expo</span><span class="svc-tag">iOS/Android</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= PROJECTS ======= -->
+<div class="section-divider"></div>
+<section id="projects">
+  <div class="section-header reveal">
+    <div class="section-tag">// 03 · Projects</div>
+    <h2>Systems we've <span style="color:var(--neon)">built</span></h2>
+  </div>
+  <div class="projects-grid">
+    <div class="project-card reveal">
+      <div class="proj-img">
+        <div class="proj-img-bg" style="background:linear-gradient(135deg,#0f1a2e,#0d1f3c);">
+          <svg width="120" height="80" viewBox="0 0 120 80"><rect x="10" y="15" width="100" height="50" rx="3" fill="none" stroke="rgba(0,240,255,0.3)" stroke-width="1"/><rect x="20" y="25" width="60" height="4" rx="2" fill="rgba(0,240,255,0.4)"/><rect x="20" y="35" width="40" height="3" rx="2" fill="rgba(255,255,255,0.15)"/><circle cx="90" cy="47" r="10" fill="none" stroke="rgba(122,0,255,0.5)" stroke-width="1"/><path d="M85 47 L90 42 L95 47" stroke="rgba(122,0,255,0.6)" stroke-width="1.5" fill="none"/></svg>
+        </div>
+        <div class="proj-img-overlay">→</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-title">NexaFlow SaaS</div>
+        <div class="proj-desc">Multi-tenant analytics platform with real-time dashboards and team management for 500+ enterprises.</div>
+        <div class="proj-stack"><span class="stack-tag">React</span><span class="stack-tag">Laravel</span><span class="stack-tag">PostgreSQL</span><span class="stack-tag">AWS</span></div>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="proj-img">
+        <div class="proj-img-bg" style="background:linear-gradient(135deg,#1a0f2e,#1d0d3c);">
+          <svg width="120" height="80" viewBox="0 0 120 80"><circle cx="60" cy="40" r="25" fill="none" stroke="rgba(122,0,255,0.4)" stroke-width="1"/><circle cx="60" cy="40" r="4" fill="rgba(122,0,255,0.6)"/><line x1="60" y1="15" x2="60" y2="65" stroke="rgba(122,0,255,0.2)" stroke-width="0.5"/><line x1="35" y1="40" x2="85" y2="40" stroke="rgba(122,0,255,0.2)" stroke-width="0.5"/><circle cx="60" cy="15" r="3" fill="rgba(0,240,255,0.6)"/><circle cx="85" cy="40" r="3" fill="rgba(0,240,255,0.4)"/></svg>
+        </div>
+        <div class="proj-img-overlay">→</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-title">AtomCore API</div>
+        <div class="proj-desc">High-throughput REST API gateway handling 10M+ daily requests with intelligent rate limiting and caching.</div>
+        <div class="proj-stack"><span class="stack-tag">Node.js</span><span class="stack-tag">Redis</span><span class="stack-tag">Docker</span></div>
+      </div>
+    </div>
+    <div class="project-card reveal">
+      <div class="proj-img">
+        <div class="proj-img-bg" style="background:linear-gradient(135deg,#0f2e1a,#0d3c1f);">
+          <svg width="120" height="80" viewBox="0 0 120 80"><rect x="15" y="20" width="30" height="40" rx="2" fill="none" stroke="rgba(0,240,255,0.3)" stroke-width="1"/><rect x="55" y="30" width="50" height="5" rx="2" fill="rgba(0,240,255,0.3)"/><rect x="55" y="42" width="35" height="4" rx="2" fill="rgba(255,255,255,0.1)"/><rect x="55" y="52" width="25" height="3" rx="2" fill="rgba(255,255,255,0.08)"/><circle cx="30" cy="34" r="8" fill="rgba(0,240,255,0.1)" stroke="rgba(0,240,255,0.3)" stroke-width="1"/></svg>
+        </div>
+        <div class="proj-img-overlay">→</div>
+      </div>
+      <div class="proj-body">
+        <div class="proj-title">Synapse AI Platform</div>
+        <div class="proj-desc">LLM-powered document intelligence platform with automated workflows and enterprise integrations.</div>
+        <div class="proj-stack"><span class="stack-tag">Python</span><span class="stack-tag">OpenAI</span><span class="stack-tag">FastAPI</span></div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:52px;"><a href="#contact" class="btn-secondary">View All Projects →</a></div>
+</section>
+
+<!-- ======= TECH STACK ======= -->
+<div class="section-divider"></div>
+<section id="techstack">
+  <div class="section-header reveal">
+    <div class="section-tag">// 04 · Tech Stack</div>
+    <h2>Powered by <span style="color:var(--neon)">precision</span></h2>
+  </div>
+  <div class="tech-orbit-container">
+    <canvas id="orbit-canvas"></canvas>
+  </div>
+</section>
+
+<!-- ======= PROCESS ======= -->
+<div class="section-divider"></div>
+<section id="process">
+  <div class="section-header reveal">
+    <div class="section-tag">// 05 · Process</div>
+    <h2>How we <span style="color:var(--neon)">operate</span></h2>
+  </div>
+  <div class="process-steps">
+    <div class="process-line"></div>
+    <div class="process-grid">
+      <div class="process-step reveal">
+        <div class="process-node"><span class="process-step-num">01</span>🔍</div>
+        <h4>Discovery</h4>
+        <p>Deep-dive into your goals, constraints, and technical landscape.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-node"><span class="process-step-num">02</span>🗺️</div>
+        <h4>Planning</h4>
+        <p>Architecture design, tech selection, and delivery roadmap.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-node"><span class="process-step-num">03</span>⚡</div>
+        <h4>Development</h4>
+        <p>Iterative sprints with transparent progress tracking.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-node"><span class="process-step-num">04</span>🔬</div>
+        <h4>Testing</h4>
+        <p>Automated and manual QA across all critical paths.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="process-node"><span class="process-step-num">05</span>🚀</div>
+        <h4>Deployment</h4>
+        <p>Zero-downtime releases with monitoring and support.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= WHY === -->
+<div class="section-divider"></div>
+<section id="why">
+  <div class="section-header reveal">
+    <div class="section-tag">// 06 · Why ATOMIXLAB</div>
+    <h2>Built different. <span style="color:var(--neon)">By design</span>.</h2>
+  </div>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <div class="why-icon">⬡</div>
+      <div>
+        <h4>Scalable Architecture</h4>
+        <p>Every system we build is designed from the ground up to scale — horizontal, vertical, and everything in between.</p>
+      </div>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">◈</div>
+      <div>
+        <h4>Clean Code Standards</h4>
+        <p>Documented, tested, and maintainable code following industry best practices and SOLID principles.</p>
+      </div>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">◇</div>
+      <div>
+        <h4>Global-Ready Solutions</h4>
+        <p>Multi-region deployments, i18n support, GDPR compliance, and timezone-aware systems built for worldwide audiences.</p>
+      </div>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-icon">⟁</div>
+      <div>
+        <h4>Performance-Focused</h4>
+        <p>Every millisecond matters. We obsess over load times, query optimization, and infrastructure efficiency.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======= CONTACT ======= -->
+<div class="section-divider"></div>
+<section id="contact">
+  <div class="reveal">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--neon);letter-spacing:4px;text-transform:uppercase;margin-bottom:16px;">// 07 · Contact</div>
+    <h2>Ready to <span style="color:var(--neon)">build</span>?</h2>
+    <p>Tell us what you're building. We'll tell you how to make it extraordinary.</p>
+  </div>
+  <div class="contact-form reveal">
+    <div class="form-row">
+      <div class="form-field">
+        <label>Name</label>
+        <input type="text" placeholder="Your name" />
+      </div>
+      <div class="form-field">
+        <label>Email</label>
+        <input type="email" placeholder="your@email.com" />
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-field">
+        <label>Company</label>
+        <input type="text" placeholder="Company name (optional)" />
+      </div>
+      <div class="form-field">
+        <label>Budget</label>
+        <input type="text" placeholder="Project budget range" />
+      </div>
+    </div>
+    <div class="form-field" style="margin-bottom:0;">
+      <label>Project Brief</label>
+      <textarea placeholder="Describe your project, goals, and timeline..."></textarea>
+    </div>
+    <div class="form-submit">
+      <button class="btn-primary" style="border:none;">Launch Project ↗</button>
+    </div>
+  </div>
+  <div class="contact-info reveal">
+    <div class="contact-info-item"><div class="lbl">Email</div><div class="val">hello@atomixlab.io</div></div>
+    <div class="contact-info-item"><div class="lbl">Response Time</div><div class="val">&lt; 24 hours</div></div>
+    <div class="contact-info-item"><div class="lbl">Timezone</div><div class="val">UTC+5:30 (Flexible)</div></div>
+  </div>
+</section>
+
+<!-- ======= FOOTER ======= -->
+<footer>
+  <div class="footer-logo">ATOMIX<span style="color:var(--neon);text-shadow:0 0 20px var(--neon);">LAB</span></div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#projects">Projects</a>
+    <a href="#process">Process</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <div class="footer-tagline">Powering the Future of Software</div>
+</footer>
+<script src="script.js"></script>
+</body>
+</html>

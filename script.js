@@ -1,147 +1,413 @@
-// ======= CURSOR =======
+// ===== CUSTOM CURSOR =====
 const cursor = document.getElementById('cursor');
 const ring = document.getElementById('cursor-ring');
-let mx = 0, my = 0, rx = 0, ry = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
-setInterval(() => {
-  rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
-  ring.style.left = rx+'px'; ring.style.top = ry+'px';
-}, 16);
-document.querySelectorAll('a, button, .service-card, .project-card, .why-card').forEach(el => {
-  el.addEventListener('mouseenter', () => { cursor.style.width='6px'; cursor.style.height='6px'; ring.style.width='56px'; ring.style.height='56px'; });
-  el.addEventListener('mouseleave', () => { cursor.style.width='12px'; cursor.style.height='12px'; ring.style.width='36px'; ring.style.height='36px'; });
-});
 
-// ======= NAVBAR SCROLL =======
+if (cursor && ring) {
+  let mouseX = 0, mouseY = 0;
+  let ringX = 0, ringY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursor.style.left = mouseX + 'px';
+    cursor.style.top = mouseY + 'px';
+  });
+
+  const smoothRing = () => {
+    ringX += (mouseX - ringX) * 0.15;
+    ringY += (mouseY - ringY) * 0.15;
+    ring.style.left = ringX + 'px';
+    ring.style.top = ringY + 'px';
+    requestAnimationFrame(smoothRing);
+  };
+  smoothRing();
+
+  // hover effect on interactive elements
+  const interactive = document.querySelectorAll('a, button, .service-item, .work-card, .about-card, input, textarea, select, .nav-mobile-toggle');
+  interactive.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.width = '4px';
+      cursor.style.height = '4px';
+      ring.style.width = '56px';
+      ring.style.height = '56px';
+      ring.style.borderColor = 'rgba(95, 92, 255, 0.8)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.width = '8px';
+      cursor.style.height = '8px';
+      ring.style.width = '40px';
+      ring.style.height = '40px';
+      ring.style.borderColor = 'rgba(95, 92, 255, 0.5)';
+    });
+  });
+}
+
+// ===== NAVBAR SCROLL EFFECT =====
+const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
-  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+  if (window.scrollY > 60) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
+  }
 });
 
-// ======= PARTICLE CANVAS BG =======
-(function() {
-  const canvas = document.getElementById('canvas-bg');
-  const ctx = canvas.getContext('2d');
-  let W, H, particles = [], lines = [];
-  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-  resize(); window.addEventListener('resize', resize);
-  for (let i = 0; i < 80; i++) {
-    particles.push({ x: Math.random()*2000, y: Math.random()*1200, vx: (Math.random()-.5)*.3, vy: (Math.random()-.5)*.3, r: Math.random()*1.5+.3, o: Math.random()*.5+.1 });
-  }
-  function draw() {
-    ctx.clearRect(0,0,W,H);
-    particles.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
-      if (p.x<0) p.x=W; if (p.x>W) p.x=0;
-      if (p.y<0) p.y=H; if (p.y>H) p.y=0;
-      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle = `rgba(0,240,255,${p.o})`; ctx.fill();
-    });
-    particles.forEach((a, i) => {
-      for (let j = i+1; j < particles.length; j++) {
-        const b = particles[j], d = Math.hypot(a.x-b.x, a.y-b.y);
-        if (d < 120) {
-          ctx.beginPath(); ctx.moveTo(a.x,a.y); ctx.lineTo(b.x,b.y);
-          ctx.strokeStyle = `rgba(0,240,255,${0.04*(1-d/120)})`; ctx.lineWidth=.5; ctx.stroke();
+// ===== MOBILE MENU TOGGLE =====
+const mobileToggle = document.getElementById('mobile-toggle');
+if (mobileToggle) {
+  mobileToggle.addEventListener('click', () => {
+    mobileToggle.classList.toggle('active');
+    
+    // Create mobile menu if it doesn't exist
+    let mobileMenu = document.querySelector('.mobile-menu');
+    
+    if (!mobileMenu) {
+      mobileMenu = document.createElement('div');
+      mobileMenu.className = 'mobile-menu';
+      mobileMenu.innerHTML = `
+        <ul class="mobile-nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#work">Work</a></li>
+          <li><a href="#tech">Tech Stack</a></li>
+          <li><a href="#contact" class="mobile-nav-cta">Contact</a></li>
+        </ul>
+      `;
+      document.body.appendChild(mobileMenu);
+      
+      // Add styles for mobile menu
+      const style = document.createElement('style');
+      style.textContent = `
+        .mobile-menu {
+          position: fixed;
+          top: 80px;
+          left: 0;
+          right: 0;
+          background: var(--bg-elevated);
+          backdrop-filter: blur(20px);
+          border-bottom: 1px solid var(--border-dim);
+          padding: 30px 24px;
+          z-index: 99;
+          transform: translateY(-100%);
+          opacity: 0;
+          transition: all 0.3s ease;
+          pointer-events: none;
         }
-      }
-    });
-    requestAnimationFrame(draw);
-  }
-  draw();
-})();
+        
+        .mobile-menu.active {
+          transform: translateY(0);
+          opacity: 1;
+          pointer-events: all;
+        }
+        
+        .mobile-nav-links {
+          list-style: none;
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          align-items: center;
+        }
+        
+        .mobile-nav-links a {
+          text-decoration: none;
+          color: var(--text-body);
+          font-size: 1.2rem;
+          font-weight: 500;
+        }
+        
+        .mobile-nav-cta {
+          border: 1.5px solid var(--primary);
+          padding: 10px 30px;
+          border-radius: 60px;
+          color: var(--primary) !important;
+          display: inline-block;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+    
+    mobileMenu.classList.toggle('active');
+    
+    // Animate hamburger
+    const spans = mobileToggle.querySelectorAll('span');
+    if (mobileToggle.classList.contains('active')) {
+      spans[0].style.transform = 'rotate(45deg) translate(8px, 8px)';
+      spans[1].style.opacity = '0';
+      spans[2].style.transform = 'rotate(-45deg) translate(8px, -8px)';
+    } else {
+      spans[0].style.transform = 'none';
+      spans[1].style.opacity = '1';
+      spans[2].style.transform = 'none';
+    }
+  });
+}
 
-// ======= ATOM CANVAS =======
-(function() {
-  const c = document.getElementById('atom-canvas');
-  if (!c) return;
-  const ctx = c.getContext('2d');
-  c.width = 340; c.height = 340;
+// ===== ATOM CANVAS =====
+(function initAtomCanvas() {
+  const canvas = document.getElementById('atom-canvas');
+  if (!canvas) return;
+
+  // Set canvas dimensions
+  const size = Math.min(420, window.innerWidth * 0.8);
+  canvas.width = size;
+  canvas.height = size;
+
+  const ctx = canvas.getContext('2d');
   let t = 0;
-  const cx = 170, cy = 170, rx = 130, ry = 44;
-  const orbits = [0, Math.PI/3, 2*Math.PI/3];
+  const cx = size / 2;
+  const cy = size / 2;
+  const rx = size * 0.35;
+  const ry = size * 0.12;
+  const orbits = [0, Math.PI / 3, (2 * Math.PI) / 3];
+
   function draw() {
-    ctx.clearRect(0,0,340,340);
+    ctx.clearRect(0, 0, size, size);
+
     // Core glow
-    const grad = ctx.createRadialGradient(cx,cy,0,cx,cy,40);
-    grad.addColorStop(0,'rgba(0,240,255,0.8)'); grad.addColorStop(.4,'rgba(0,240,255,0.3)'); grad.addColorStop(1,'transparent');
-    ctx.beginPath(); ctx.arc(cx,cy,40,0,Math.PI*2); ctx.fillStyle=grad; ctx.fill();
-    ctx.beginPath(); ctx.arc(cx,cy,8,0,Math.PI*2); ctx.fillStyle='#00F0FF'; ctx.fill();
+    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, size * 0.15);
+    grad.addColorStop(0, 'rgba(95, 92, 255, 0.8)');
+    grad.addColorStop(0.4, 'rgba(95, 92, 255, 0.3)');
+    grad.addColorStop(1, 'transparent');
+
+    ctx.beginPath();
+    ctx.arc(cx, cy, size * 0.15, 0, Math.PI * 2);
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Core
+    ctx.beginPath();
+    ctx.arc(cx, cy, size * 0.03, 0, Math.PI * 2);
+    ctx.fillStyle = '#5f5cff';
+    ctx.fill();
+
+    // Orbits and electrons
     orbits.forEach((angle, i) => {
-      ctx.save(); ctx.translate(cx,cy); ctx.rotate(angle);
-      ctx.beginPath(); ctx.ellipse(0,0,rx,ry,0,0,Math.PI*2);
-      ctx.strokeStyle='rgba(0,240,255,0.25)'; ctx.lineWidth=1; ctx.stroke();
-      // electron
-      const ea = t + i*(Math.PI*2/3);
-      const ex = rx*Math.cos(ea), ey = ry*Math.sin(ea);
-      const eg = ctx.createRadialGradient(ex,ey,0,ex,ey,10);
-      eg.addColorStop(0,'rgba(0,240,255,1)'); eg.addColorStop(1,'transparent');
-      ctx.beginPath(); ctx.arc(ex,ey,10,0,Math.PI*2); ctx.fillStyle=eg; ctx.fill();
-      ctx.beginPath(); ctx.arc(ex,ey,4,0,Math.PI*2); ctx.fillStyle='#00F0FF'; ctx.fill();
+      ctx.save();
+      ctx.translate(cx, cy);
+      ctx.rotate(angle);
+
+      // Draw orbit ellipse
+      ctx.beginPath();
+      ctx.ellipse(0, 0, rx, ry, 0, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(95, 92, 255, 0.25)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      // Electron position
+      const ea = t + i * ((Math.PI * 2) / 3);
+      const ex = rx * Math.cos(ea);
+      const ey = ry * Math.sin(ea);
+
+      // Electron glow
+      const eg = ctx.createRadialGradient(ex, ey, 0, ex, ey, size * 0.04);
+      eg.addColorStop(0, 'rgba(95, 92, 255, 1)');
+      eg.addColorStop(1, 'transparent');
+
+      ctx.beginPath();
+      ctx.arc(ex, ey, size * 0.04, 0, Math.PI * 2);
+      ctx.fillStyle = eg;
+      ctx.fill();
+
+      // Electron core
+      ctx.beginPath();
+      ctx.arc(ex, ey, size * 0.015, 0, Math.PI * 2);
+      ctx.fillStyle = '#5f5cff';
+      ctx.fill();
+
       ctx.restore();
     });
-    t += 0.018; requestAnimationFrame(draw);
+
+    t += 0.015;
+    requestAnimationFrame(draw);
   }
+
   draw();
+
+  // Resize handler
+  window.addEventListener('resize', () => {
+    const newSize = Math.min(420, window.innerWidth * 0.8);
+    canvas.width = newSize;
+    canvas.height = newSize;
+    // Reset dimensions and let draw continue
+  });
 })();
 
-// ======= ORBIT CANVAS =======
-(function() {
-  const c = document.getElementById('orbit-canvas');
-  if (!c) return;
-  const ctx = c.getContext('2d');
-  c.width = 480; c.height = 480;
-  const cx=240, cy=240;
-  const techs = [
-    { name:'React', color:'#61DAFB', r:100 },
-    { name:'Laravel', color:'#FF2D20', r:150 },
-    { name:'Node.js', color:'#8CC84B', r:100 },
-    { name:'PostgreSQL', color:'#336791', r:150 },
-    { name:'Python', color:'#FFD43B', r:200 },
-    { name:'Docker', color:'#2496ED', r:200 },
-    { name:'AWS', color:'#FF9900', r:200 },
-    { name:'Redis', color:'#DC382D', r:150 },
-  ];
-  let t = 0;
-  const speeds = [0.008, 0.005, 0.007, 0.004, 0.003, 0.006, 0.0025, 0.009];
-  const offsets = techs.map((_,i) => (i/techs.length)*Math.PI*2);
-  function draw() {
-    ctx.clearRect(0,0,480,480);
-    // Center core
-    const cg = ctx.createRadialGradient(cx,cy,0,cx,cy,30);
-    cg.addColorStop(0,'rgba(0,240,255,0.9)'); cg.addColorStop(.5,'rgba(122,0,255,0.4)'); cg.addColorStop(1,'transparent');
-    ctx.beginPath(); ctx.arc(cx,cy,30,0,Math.PI*2); ctx.fillStyle=cg; ctx.fill();
-    ctx.beginPath(); ctx.arc(cx,cy,12,0,Math.PI*2); ctx.fillStyle='#00F0FF'; ctx.fill();
-    // Orbit rings
-    [100,150,200].forEach(r => {
-      ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
-      ctx.strokeStyle='rgba(0,240,255,0.07)'; ctx.lineWidth=1; ctx.setLineDash([4,8]); ctx.stroke(); ctx.setLineDash([]);
-    });
-    techs.forEach((tech, i) => {
-      const angle = offsets[i] + t * speeds[i]*800;
-      const x = cx + tech.r * Math.cos(angle);
-      const y = cy + tech.r * Math.sin(angle);
-      // Trail
-      const tg = ctx.createRadialGradient(x,y,0,x,y,18);
-      tg.addColorStop(0, tech.color+'44'); tg.addColorStop(1,'transparent');
-      ctx.beginPath(); ctx.arc(x,y,18,0,Math.PI*2); ctx.fillStyle=tg; ctx.fill();
-      ctx.beginPath(); ctx.arc(x,y,6,0,Math.PI*2); ctx.fillStyle=tech.color; ctx.fill();
-      // Label
-      ctx.fillStyle = tech.color; ctx.font = '600 11px "JetBrains Mono", monospace';
-      ctx.textAlign = 'center'; ctx.fillText(tech.name, x, y+22);
-    });
-    t += 1; requestAnimationFrame(draw);
+// ===== BACKGROUND CANVAS (particle network) =====
+(function initBgCanvas() {
+  const canvas = document.getElementById('bg-canvas');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let particles = [];
+
+  function resizeCanvas() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+    
+    // Reinitialize particles for new size
+    particles = [];
+    const PARTICLE_COUNT = Math.min(40, Math.floor(width * height / 20000));
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.2,
+        vy: (Math.random() - 0.5) * 0.2,
+        size: Math.random() * 2 + 0.8,
+      });
+    }
   }
-  draw();
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  function drawParticles() {
+    ctx.clearRect(0, 0, width, height);
+
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+
+      // Wrap around edges
+      if (p.x < 0) p.x = width;
+      if (p.x > width) p.x = 0;
+      if (p.y < 0) p.y = height;
+      if (p.y > height) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(95, 92, 255, 0.3)';
+      ctx.fill();
+    });
+
+    // Draw connections
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const a = particles[i];
+        const b = particles[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 150) {
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(95, 92, 255, ${0.1 * (1 - dist / 150)})`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+        }
+      }
+    }
+
+    requestAnimationFrame(drawParticles);
+  }
+
+  drawParticles();
 })();
 
-// ======= SCROLL REVEAL =======
-const revealEls = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-revealEls.forEach(el => io.observe(el));
+// ===== SCROLL REVEAL (intersection observer) =====
+const revealElements = document.querySelectorAll('.reveal');
 
-// ======= STAGGER CHILDREN =======
-document.querySelectorAll('.services-grid, .projects-grid, .why-grid, .process-grid').forEach(grid => {
-  grid.querySelectorAll('.reveal').forEach((el, i) => { el.style.transitionDelay = (i * 0.1)+'s'; });
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  },
+  {
+    threshold: 0.15,
+    rootMargin: '0px 0px -30px 0px',
+  }
+);
+
+revealElements.forEach((el) => observer.observe(el));
+
+// ===== STAGGER CHILDREN =====
+document.querySelectorAll('.services-detailed, .work-grid, .about-grid, .tech-grid').forEach((grid) => {
+  const children = grid.children;
+  for (let i = 0; i < children.length; i++) {
+    if (children[i].classList.contains('reveal')) {
+      children[i].style.transitionDelay = `${i * 0.08}s`;
+    }
+  }
 });
+
+// ===== FORM SUBMISSION =====
+const demoForm = document.getElementById('demo-form');
+if (demoForm) {
+  demoForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert('✨ Thank you! We will contact you within 24 hours.');
+    demoForm.reset();
+  });
+}
+
+// ===== ACTIVE NAV LINK HIGHLIGHT =====
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+
+  sections.forEach((section) => {
+    const sectionHeight = section.offsetHeight;
+    const sectionTop = section.offsetTop - 100;
+    const sectionId = section.getAttribute('id');
+    const navLink = document.querySelector(`.nav-links a[href="#${sectionId}"]`);
+
+    if (navLink) {
+      if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+        navLink.style.color = 'var(--primary-light)';
+      } else {
+        navLink.style.color = 'var(--text-body)';
+      }
+    }
+  });
+});
+
+// ===== CLOSE MOBILE MENU WHEN CLICKING A LINK =====
+document.addEventListener('click', (e) => {
+  if (e.target.matches('.mobile-nav-links a')) {
+    const mobileMenu = document.querySelector('.mobile-menu');
+    const mobileToggle = document.getElementById('mobile-toggle');
+    
+    if (mobileMenu && mobileMenu.classList.contains('active')) {
+      mobileMenu.classList.remove('active');
+      mobileToggle.classList.remove('active');
+      
+      const spans = mobileToggle.querySelectorAll('span');
+      spans[0].style.transform = 'none';
+      spans[1].style.opacity = '1';
+      spans[2].style.transform = 'none';
+    }
+  }
+});
+
+// ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    e.preventDefault();
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  });
+});
+
+
+// ===== NEWSLETTER FORM SUBMISSION =====
+const newsletterForm = document.getElementById('newsletter-form');
+if (newsletterForm) {
+  newsletterForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const email = newsletterForm.querySelector('input[type="email"]').value;
+    alert(`✨ Thank you for subscribing! We'll send updates to ${email}`);
+    newsletterForm.reset();
+  });
+}
